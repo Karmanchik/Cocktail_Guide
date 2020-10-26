@@ -13,11 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CocktailGuide">
 
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.CocktailActivity"
+            android:label="@string/title_activity_scrolling"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.CocktailGuide.NoActionBar" />
+
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
