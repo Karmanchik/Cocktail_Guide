@@ -8,12 +8,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val API_BASE_URL = ""
+private const val API_BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
 
 val retrofit by lazy {
     val gson = GsonBuilder()
         .setLenient()
         .create()
+
     val interceptor = HttpLoggingInterceptor()
     interceptor.level =
         if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
