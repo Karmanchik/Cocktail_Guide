@@ -8,7 +8,9 @@ import app.nocamelstyle.cocktailguide.databinding.ActivityHomeBinding
 import app.nocamelstyle.cocktailguide.fragments.CategoriesFragment
 import app.nocamelstyle.cocktailguide.fragments.FavouritesFragment
 import app.nocamelstyle.cocktailguide.fragments.SearchFragment
+import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.utils.startActivity
+import com.google.gson.Gson
 
 class HomeActivity : AppCompatActivity() {
 
@@ -33,7 +35,9 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
-        startActivity<CocktailActivity>()
+        startActivity<CocktailActivity> {
+            putExtra("drink", Gson().toJson(Drink(null, null, null, "https://www.thecocktaildb.com/images/media/drink/wzdtnn1582477684.jpg")))
+        }
     }
 
 }

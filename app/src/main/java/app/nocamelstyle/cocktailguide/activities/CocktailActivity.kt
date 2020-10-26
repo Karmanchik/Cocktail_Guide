@@ -4,17 +4,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
+import app.nocamelstyle.cocktailguide.models.Drink
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 
 class CocktailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCocktailBinding
     private var isSelected = false
+    private lateinit var drink: Drink
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityCocktailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
+        drink = Gson().fromJson(intent.getStringExtra("drink"), Drink::class.java)
+
+        Glide.with(this)
+                .load(drink.strDrinkThumb)
+                .into(binding.imageView)
 
         binding.apply {
             setSupportActionBar(toolbar)
