@@ -1,6 +1,7 @@
 package app.nocamelstyle.cocktailguide.api
 
 import app.nocamelstyle.cocktailguide.models.AnswerCategories
+import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.AnswerIngredients
 import app.nocamelstyle.cocktailguide.models.Drink
 import retrofit2.Call
@@ -25,7 +26,7 @@ interface API {
 
     @GET("filter.php")
     fun getDrinks(@Query("c") categotyName: String):
-            Call<List<Drink>>
+            Call<AnswerDrinks>
 
     @GET("list.php?c=list")
     fun getCategories():

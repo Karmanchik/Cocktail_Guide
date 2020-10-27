@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.nocamelstyle.cocktailguide.adapters.DrinksAdapter
 import app.nocamelstyle.cocktailguide.api.API
 import app.nocamelstyle.cocktailguide.databinding.ActivityCategoryBinding
+import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.services.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -36,41 +37,28 @@ class CategoryActivity :
         onRefresh()
     }
 
-    private fun onDrinksLoaded(answer: Response<List<Drink>>) {
-        Log.e("test", "5")
+    private fun onDrinksLoaded(answer: Response<AnswerDrinks>) {
         binding.refreshLayout.isRefreshing = false
-
-        Log.e("test", "6")
-
-            GlobalScope.launch(Dispatchers.Main) {
-                Log.e("test", "7")
-                try {
-                if (answer.body() != null) {
-                    if (drinksAdapter != null) {
-                        Log.e("test", "8")
-                        drinksAdapter?.drinks = answer.body() ?: listOf()
-                        drinksAdapter?.notifyDataSetChanged()
-                    } else {
-                        binding.drinksList.apply {
-                            layoutManager = LinearLayoutManager(this@CategoryActivity)
-                            drinksAdapter = DrinksAdapter(
-                                this@CategoryActivity,
-                                answer.body() ?: listOf()
-                            )
-                            adapter = drinksAdapter
-                        }
-                    }
-
-                    Log.e("test", "9")
+        GlobalScope.launch(Dispatchers.Main) {
+            if (answer.body() != null) {
+                if (drinksAdapter != null) {
+                    drinksAdapter?.drinks = answer.body()?.drinks ?: listOf()
+                    drinksAdapter?.notifyDataSetChanged()
                 } else {
-                    Log.e("test", "10")
-                    //todo: internet error
+                    binding.drinksList.apply {
+                        layoutManager = LinearLayoutManager(this@CategoryActivity)
+                        drinksAdapter = DrinksAdapter(
+                            this@CategoryActivity,
+                            answer.body()?.drinks ?: listOf()
+                        )
+                        adapter = drinksAdapter
+                    }
                 }
 
-            } catch (e: Exception) {
-                Log.e("test", e.localizedMessage ?: "error")
+            } else {
+                //todo: internet error
             }
-            }
+        }
     }
 
     override fun onRefresh() {

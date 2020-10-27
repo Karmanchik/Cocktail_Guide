@@ -1,6 +1,7 @@
 package app.nocamelstyle.cocktailguide.services
 
 import app.nocamelstyle.cocktailguide.models.AnswerCategories
+import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.AnswerIngredients
 import app.nocamelstyle.cocktailguide.models.Drink
 import retrofit2.Call
@@ -14,7 +15,7 @@ interface IApiService {
 
     fun searchDrinks(drinkName: String): Response<List<Drink>>
 
-    fun loadDrinks(categotyName: String): Response<List<Drink>>
+    fun loadDrinks(categotyName: String): Response<AnswerDrinks>
 
     fun loadCategories(): Response<AnswerCategories>
 

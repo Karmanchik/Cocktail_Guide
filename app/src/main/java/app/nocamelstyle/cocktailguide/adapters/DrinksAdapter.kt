@@ -1,5 +1,6 @@
 package app.nocamelstyle.cocktailguide.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class DrinksAdapter(
 
     inner class Holder(private val view: ItemCocktailBinding): RecyclerView.ViewHolder(view.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
             drinks[position].apply {
                 Glide.with(ctx)
@@ -41,7 +43,7 @@ class DrinksAdapter(
                 //todo: skeleton
 
                 view.drinkName.text = strDrink
-                view.drinkType.text = strCategory
+                view.drinkType.text = "id: $idDrink"
 
                 view.root.setOnClickListener {
                     ctx.startActivity<CocktailActivity> {
