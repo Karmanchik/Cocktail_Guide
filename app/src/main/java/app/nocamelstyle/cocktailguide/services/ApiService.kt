@@ -17,7 +17,7 @@ object ApiService : IApiService {
     override fun searchDrinks(drinkName: String) =
             API.client.searchDrinks(drinkName).execute()
 
-    override fun loadDrink(categotyName: String) =
+    override fun loadDrinks(categotyName: String) =
             API.client.getDrinks(categotyName).execute()
 
     override fun loadCategories() =

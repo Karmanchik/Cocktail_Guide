@@ -53,7 +53,7 @@ class CategoriesFragment :
                 if (categoriesAdapter == null) {
                     binding?.categoriesList?.apply {
                         layoutManager = LinearLayoutManager(requireContext())
-                        categoriesAdapter = CategoriesAdapter(answer.body()!!.drinks)
+                        categoriesAdapter = CategoriesAdapter(requireContext(), answer.body()!!.drinks)
                         adapter = categoriesAdapter
                     }
 
@@ -67,6 +67,11 @@ class CategoriesFragment :
                 //todo show error
             }
         }
+    }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
     }
 
 }

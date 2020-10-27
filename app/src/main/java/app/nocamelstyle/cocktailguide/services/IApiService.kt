@@ -14,7 +14,7 @@ interface IApiService {
 
     fun searchDrinks(drinkName: String): Response<List<Drink>>
 
-    fun loadDrink(categotyName: String): Response<List<Drink>>
+    fun loadDrinks(categotyName: String): Response<List<Drink>>
 
     fun loadCategories(): Response<AnswerCategories>
 

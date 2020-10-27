@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.create
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface API {
 
@@ -15,15 +16,15 @@ interface API {
             Call<Drink>
 
     @GET("lookup.php")
-    fun getIngredients(@Field("iid") drinkId: String):
+    fun getIngredients(@Query("iid") drinkId: String):
             Call<AnswerIngredients>
 
     @GET("search.php")
-    fun searchDrinks(@Field("s") drinkName: String):
+    fun searchDrinks(@Query("s") drinkName: String):
             Call<List<Drink>>
 
     @GET("filter.php")
-    fun getDrinks(@Field("c") categotyName: String):
+    fun getDrinks(@Query("c") categotyName: String):
             Call<List<Drink>>
 
     @GET("list.php?c=list")
