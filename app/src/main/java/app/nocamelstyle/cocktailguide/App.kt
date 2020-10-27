@@ -2,6 +2,7 @@ package app.nocamelstyle.cocktailguide
 
 import android.app.Application
 import app.nocamelstyle.cocktailguide.utils.Setting
+import io.realm.Realm
 
 class App : Application() {
 
@@ -12,6 +13,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         setting = Setting(this)
+        Realm.init(this)
     }
 
 }

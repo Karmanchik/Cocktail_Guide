@@ -29,7 +29,7 @@ class CocktailActivity : AppCompatActivity() {
 
         binding.apply {
             setSupportActionBar(toolbar)
-            toolbarLayout.title = title
+            toolbarLayout.title = drink.strDrink
             fab.setOnClickListener {
                 fab.setImageResource(
                     if (!isSelected) R.drawable.ic_baseline_star_rate_24
