@@ -9,11 +9,11 @@ import retrofit2.Response
 
 interface IApiService {
 
-    fun loadRandomDrink(): Response<Drink>
+    fun loadRandomDrink(): Response<AnswerDrinks>
 
     fun loadIngredients(drinkId: String): Response<AnswerIngredients>
 
-    fun searchDrinks(drinkName: String): Response<List<Drink>>
+    fun searchDrinks(drinkName: String): Response<AnswerDrinks>
 
     fun loadDrinks(categotyName: String): Response<AnswerDrinks>
 

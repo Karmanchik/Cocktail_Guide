@@ -98,4 +98,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="open_random_cocktails">Open random cocktails</string>
 </resources>

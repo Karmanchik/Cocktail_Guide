@@ -3,10 +3,8 @@ package app.nocamelstyle.cocktailguide.api
 import app.nocamelstyle.cocktailguide.models.AnswerCategories
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.AnswerIngredients
-import app.nocamelstyle.cocktailguide.models.Drink
 import retrofit2.Call
 import retrofit2.create
-import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,7 +12,7 @@ interface API {
 
     @GET("random.php")
     fun getRandom():
-            Call<Drink>
+            Call<AnswerDrinks>
 
     @GET("lookup.php")
     fun getIngredients(@Query("iid") drinkId: String):
@@ -22,7 +20,7 @@ interface API {
 
     @GET("search.php")
     fun searchDrinks(@Query("s") drinkName: String):
-            Call<List<Drink>>
+            Call<AnswerDrinks>
 
     @GET("filter.php")
     fun getDrinks(@Query("c") categotyName: String):

@@ -20,13 +20,12 @@ class CocktailActivity : AppCompatActivity() {
         binding = ActivityCocktailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         drink = Gson().fromJson(intent.getStringExtra("drink"), Drink::class.java)
 
         Glide.with(this)
-                .load(drink.strDrinkThumb)
-                .into(binding.imageView)
+            .load(drink.strDrinkThumb)
+            .override(binding.imageView.width, binding.imageView.height)
+            .into(binding.imageView)
 
         binding.apply {
             setSupportActionBar(toolbar)
@@ -39,5 +38,6 @@ class CocktailActivity : AppCompatActivity() {
                 isSelected = !isSelected
             }
         }
+        //todo: save drink to realm
     }
 }

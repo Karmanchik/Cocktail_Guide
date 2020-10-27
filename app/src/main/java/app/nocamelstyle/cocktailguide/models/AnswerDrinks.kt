@@ -1,5 +1,5 @@
 package app.nocamelstyle.cocktailguide.models
 
-class AnswerDrinks(
+data class AnswerDrinks(
     val drinks: List<Drink>
 )

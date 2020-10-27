@@ -6,11 +6,10 @@ import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.utils.startActivity
 import kotlinx.coroutines.*
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         GlobalScope.launch {
             delay(2000)
