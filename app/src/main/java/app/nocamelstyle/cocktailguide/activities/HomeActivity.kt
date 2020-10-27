@@ -35,9 +35,10 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
-        startActivity<CocktailActivity> {
-            putExtra("drink", Gson().toJson(Drink(null, null, null, "https://www.thecocktaildb.com/images/media/drink/wzdtnn1582477684.jpg")))
-        }
+        //fixme: delete stub
+//        startActivity<CocktailActivity> {
+//            putExtra("drink", Gson().toJson(Drink(null, null, null, "https://www.thecocktaildb.com/images/media/drink/wzdtnn1582477684.jpg")))
+//        }
     }
 
 }
