@@ -5,13 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.activities.CocktailActivity
+import app.nocamelstyle.cocktailguide.adapters.DrinksAdapter
+import app.nocamelstyle.cocktailguide.adapters.HistoryVisitAdapter
 import app.nocamelstyle.cocktailguide.databinding.FragmentSearchBinding
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
+import app.nocamelstyle.cocktailguide.models.DrinkRealm
 import app.nocamelstyle.cocktailguide.services.ApiService
 import app.nocamelstyle.cocktailguide.utils.startActivity
 import com.google.gson.Gson
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,6 +50,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     }
                 }
             }
+
             searchButton.setOnClickListener {
                 GlobalScope.launch(Dispatchers.IO) {
                     val answer: Response<AnswerDrinks> = ApiService.searchDrinks(filter.text.toString())
@@ -55,6 +62,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             }
                         }
                     }
+            }
+
+            GlobalScope.launch(Dispatchers.Main) {
+                val drinks =
+                    Realm.getDefaultInstance().where<DrinkRealm>().findAll().map { it.toBasicVersion() }
+                historyList.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = HistoryVisitAdapter(requireContext(), drinks)
+                }
             }
         }
     }
