@@ -5,8 +5,12 @@ import android.os.Bundle
 import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import app.nocamelstyle.cocktailguide.models.Drink
+import app.nocamelstyle.cocktailguide.models.DrinkRealm
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import io.realm.Realm
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 
 class CocktailActivity : AppCompatActivity() {
 
@@ -21,6 +25,7 @@ class CocktailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         drink = Gson().fromJson(intent.getStringExtra("drink"), Drink::class.java)
+        saveToDb()
 
         Glide.with(this)
             .load(drink.strDrinkThumb)
@@ -40,4 +45,19 @@ class CocktailActivity : AppCompatActivity() {
         }
         //todo: save drink to realm
     }
+
+    private fun saveToDb() {
+        Realm.getDefaultInstance().executeTransaction {
+            try {
+                it.createObject<DrinkRealm>()
+            } catch (e: Exception) {}
+
+            val oldDrink =
+                it.where<DrinkRealm>().equalTo("idDrink", drink.idDrink).findFirst()
+
+            if (oldDrink == null)
+                it.copyToRealm(drink.toRealVersion())
+        }
+    }
+
 }
