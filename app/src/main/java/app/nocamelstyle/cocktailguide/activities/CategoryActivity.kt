@@ -1,12 +1,10 @@
 package app.nocamelstyle.cocktailguide.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.nocamelstyle.cocktailguide.adapters.DrinksAdapter
-import app.nocamelstyle.cocktailguide.api.API
 import app.nocamelstyle.cocktailguide.databinding.ActivityCategoryBinding
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.Drink
@@ -33,6 +31,7 @@ class CategoryActivity :
         categoryName = intent.getStringExtra("name") ?: return finish()
         binding.titleView.text = categoryName
 
+        binding.back.setOnClickListener { finish() }
         binding.refreshLayout.setOnRefreshListener(this)
         onRefresh()
     }
@@ -42,14 +41,20 @@ class CategoryActivity :
         GlobalScope.launch(Dispatchers.Main) {
             if (answer.body() != null) {
                 if (drinksAdapter != null) {
-                    drinksAdapter?.drinks = answer.body()?.drinks ?: listOf()
-                    drinksAdapter?.notifyDataSetChanged()
+                    drinksAdapter = DrinksAdapter(
+                        this@CategoryActivity,
+                        answer.body()?.drinks ?: listOf(),
+                        isLoaded = false
+                    )
+                    binding.drinksList.adapter = drinksAdapter
+                    //drinksAdapter?.setList(answer.body()?.drinks ?: listOf())
                 } else {
                     binding.drinksList.apply {
                         layoutManager = LinearLayoutManager(this@CategoryActivity)
                         drinksAdapter = DrinksAdapter(
                             this@CategoryActivity,
-                            answer.body()?.drinks ?: listOf()
+                            answer.body()?.drinks ?: listOf(),
+                            isLoaded = false
                         )
                         adapter = drinksAdapter
                     }
@@ -59,6 +64,10 @@ class CategoryActivity :
                 //todo: internet error
             }
         }
+    }
+
+    fun reloadAdapter(drinks: List<Drink>) {
+        //drinksAdapter = DrinksAdapter(this, drinks, true)
     }
 
     override fun onRefresh() {

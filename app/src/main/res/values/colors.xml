@@ -10,4 +10,6 @@
 
     <color name="statusBar">@android:color/transparent</color>
     <color name="navigationBar">@android:color/transparent</color>
+
+    <color name="skeleton_gray">#B1ACAC</color>
 </resources>

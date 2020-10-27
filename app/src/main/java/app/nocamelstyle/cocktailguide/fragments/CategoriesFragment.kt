@@ -41,8 +41,7 @@ class CategoriesFragment :
     override fun onRefresh() {
         binding?.refreshLayout?.isRefreshing = true
         GlobalScope.launch(Dispatchers.IO) {
-            val answer = ApiService.loadCategories()
-            onCategoriesLoaded(answer)
+            onCategoriesLoaded(ApiService.loadCategories())
         }
     }
 

@@ -5,4 +5,6 @@ data class Drink(
     val strDrink: String? = null,
     val strCategory: String? = null,
     val strDrinkThumb: String? = null
-)
+) {
+
+}
