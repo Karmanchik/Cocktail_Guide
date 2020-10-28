@@ -1,5 +1,6 @@
 package app.nocamelstyle.cocktailguide.activities
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +48,6 @@ class CategoryActivity :
                         isLoaded = false
                     )
                     binding.drinksList.adapter = drinksAdapter
-                    //drinksAdapter?.setList(answer.body()?.drinks ?: listOf())
                 } else {
                     binding.drinksList.apply {
                         layoutManager = LinearLayoutManager(this@CategoryActivity)
@@ -66,8 +66,9 @@ class CategoryActivity :
         }
     }
 
-    fun reloadAdapter(drinks: List<Drink>) {
-        //drinksAdapter = DrinksAdapter(this, drinks, true)
+    fun reloadAdapter(drinks: List<Drink>, map: MutableMap<String?, Bitmap?>) {
+        drinksAdapter = DrinksAdapter(this, drinks, true, map)
+        binding.drinksList.adapter = drinksAdapter
     }
 
     override fun onRefresh() {

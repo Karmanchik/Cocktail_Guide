@@ -55,11 +55,6 @@ class CocktailActivity : AppCompatActivity() {
                         R.string.param_drink_glass,
                         drink.strGlass ?: emptyStub
                 )
-
-                if (drink.strCategory == null)
-                    drinkType.visibility = View.GONE
-                if (drink.strGlass == null)
-                    glassType.visibility = View.GONE
             }
 
             fab.setOnClickListener {
