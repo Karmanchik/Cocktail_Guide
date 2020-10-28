@@ -41,9 +41,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         binding?.apply {
             randomButton.setOnClickListener {
+                refreshLayout.isRefreshing = true
                 GlobalScope.launch(Dispatchers.IO) {
                     //todo: load animation
                     val answer = ApiService.loadRandomDrink()
+                    launch(Dispatchers.Main) {
+                        refreshLayout.isRefreshing = false
+                    }
 
                     if (answer.body() != null) {
                         startActivity<CocktailActivity> {
@@ -55,17 +59,25 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
 
+            refreshLayout.isEnabled = false
+
             searchButton.setOnClickListener {
+                refreshLayout.isRefreshing = true
                 GlobalScope.launch(Dispatchers.IO) {
-                    val answer: Response<AnswerDrinks> = ApiService.searchDrinks(filter.text.toString())
-                        if (answer.body() == null) {
-                            //todo: internet error
-                        } else if (answer.body()!!.drinks.isNotEmpty()) {
-                            startActivity<CocktailActivity> {
-                                putExtra("drink", Gson().toJson(answer.body()!!.drinks.first()))
-                            }
+                    val answer: Response<AnswerDrinks> =
+                        ApiService.searchDrinks(filter.text.toString())
+                    launch(Dispatchers.Main) {
+                        refreshLayout.isRefreshing = false
+                    }
+
+                    if (answer.body() == null) {
+                        //todo: internet error
+                    } else if (answer.body()!!.drinks.isNotEmpty()) {
+                        startActivity<CocktailActivity> {
+                            putExtra("drink", Gson().toJson(answer.body()!!.drinks.first()))
                         }
                     }
+                }
             }
 
             filter.doOnTextChanged { _, _, _, count ->
