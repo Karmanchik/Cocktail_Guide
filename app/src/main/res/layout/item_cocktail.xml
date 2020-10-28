@@ -8,6 +8,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:elevation="8dp"
+    android:id="@+id/container"
     app:cardBackgroundColor="#fff"
     app:cardCornerRadius="15dp"
     android:layout_height="wrap_content"

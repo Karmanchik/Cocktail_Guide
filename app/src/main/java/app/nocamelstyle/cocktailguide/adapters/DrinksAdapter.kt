@@ -113,13 +113,12 @@ class DrinksAdapter(
                     drinkName.text = it.strDrink
                     drinkType.text = "id: ${it.idDrink}"
 
-                    root.setOnClickListener {
+                    container.setOnClickListener {  _ ->
                         ctx.startActivity<CocktailActivity> {
                             putExtra("drink", Gson().toJson(it))
                         }
                     }
                 }
-                //todo diff utils
             }
         }
 
