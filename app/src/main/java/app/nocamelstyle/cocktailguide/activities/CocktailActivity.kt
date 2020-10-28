@@ -10,13 +10,19 @@ import app.nocamelstyle.cocktailguide.adapters.InredientsAdapter
 import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.models.DrinkRealm
+import app.nocamelstyle.cocktailguide.models.Ingredient
+import app.nocamelstyle.cocktailguide.services.ApiService
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.content_scrolling.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CocktailActivity : AppCompatActivity() {
 
@@ -69,19 +75,40 @@ class CocktailActivity : AppCompatActivity() {
                 isSelected = !isSelected
             }
 
-            val ingredients = Gson().fromJson(intent.getStringExtra("drink"), JsonObject::class.java)
-                .entrySet()
-                .filter { it.key.startsWith("strIngredient") }
-                .filter { it.value != null }
-                .map { it.value.toString() }
+            loadIngredients()
+        }
+    }
 
-            //todo: show/hide ingredients title
-            ingredientsTitle.visibility = if (ingredients.isEmpty()) View.GONE else View.VISIBLE
-
-            ingredientsList.apply {
-                layoutManager = LinearLayoutManager(this@CocktailActivity)
-                adapter = InredientsAdapter(ingredients)
+    private fun loadIngredients() {
+        //todo: animation
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                onIngredientsLoaded(
+                    ApiService.loadIngredients(drink.idDrink ?: "").body()?.ingredients
+                )
+            } catch (e: Exception) {
+                Snackbar
+                    .make(binding.root, R.string.internet_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry) {
+                        loadIngredients()
+                    }
+                    .show()
+                onIngredientsLoaded(null)
             }
+        }
+    }
+
+    private fun onIngredientsLoaded(ingredients: List<Ingredient>?) {
+
+        ingredientsTitle.visibility =
+            if (ingredients?.isNotEmpty() == true) View.VISIBLE else View.GONE
+        //todo: animation stop
+        if (ingredients == null) return
+
+
+        ingredientsList.apply {
+            layoutManager = LinearLayoutManager(this@CocktailActivity)
+            adapter = InredientsAdapter(ingredients)
         }
     }
 

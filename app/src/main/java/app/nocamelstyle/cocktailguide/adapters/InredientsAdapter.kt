@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.nocamelstyle.cocktailguide.databinding.ItemIngredientBinding
+import app.nocamelstyle.cocktailguide.models.Ingredient
 
 
 class InredientsAdapter(
-    var ingredients: List<String>
+    var ingredients: List<Ingredient>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -25,7 +26,7 @@ class InredientsAdapter(
     inner class Holder(private val view: ItemIngredientBinding): RecyclerView.ViewHolder(view.root) {
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
-            view.root.text = "${position + 1}. ${ingredients[position]}"
+            view.root.text = "${position + 1}. ${ingredients[position].strIngredient}"
         }
     }
 

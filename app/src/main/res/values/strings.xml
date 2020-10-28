@@ -12,6 +12,7 @@
     <string name="search">Search</string>
     <string name="open_random_cocktails">Open random cocktails</string>
     <string name="internet_error">Connection error!</string>
+    <string name="retry">Retry</string>
 
     <string name="param_drink_description">Description: %1$s</string>
     <string name="param_drink_type">Type: %1$s</string>
