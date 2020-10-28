@@ -2,10 +2,8 @@ package app.nocamelstyle.cocktailguide.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -15,10 +13,12 @@ import app.nocamelstyle.cocktailguide.activities.CocktailActivity
 import app.nocamelstyle.cocktailguide.adapters.HistoryVisitAdapter
 import app.nocamelstyle.cocktailguide.databinding.FragmentSearchBinding
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
+import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.models.DrinkRealm
 import app.nocamelstyle.cocktailguide.services.ApiService
 import app.nocamelstyle.cocktailguide.utils.onRightDrawableClicked
 import app.nocamelstyle.cocktailguide.utils.startActivity
+import app.nocamelstyle.cocktailguide.utils.toast
 import com.google.gson.Gson
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -43,17 +43,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             randomButton.setOnClickListener {
                 refreshLayout.isRefreshing = true
                 GlobalScope.launch(Dispatchers.IO) {
-                    val answer = ApiService.loadRandomDrink()
+                    try {
+                        onDrinksLoaded(ApiService.loadRandomDrink().body()?.drinks)
+                    } catch (e: Exception) {
+                        onDrinksLoaded(null)
+                    }
                     launch(Dispatchers.Main) {
                         refreshLayout.isRefreshing = false
-                    }
-
-                    if (answer.body() != null) {
-                        startActivity<CocktailActivity> {
-                            putExtra("drink", Gson().toJson(answer.body()!!.drinks.first()))
-                        }
-                    } else {
-                        //todo: internet error
                     }
                 }
             }
@@ -63,18 +59,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             searchButton.setOnClickListener {
                 refreshLayout.isRefreshing = true
                 GlobalScope.launch(Dispatchers.IO) {
-                    val answer: Response<AnswerDrinks> =
-                        ApiService.searchDrinks(filter.text.toString())
+                    try {
+                        onDrinksLoaded(
+                            ApiService.searchDrinks(filter.text.toString()).body()?.drinks
+                        )
+                    } catch (e: Exception) {
+                        onDrinksLoaded(null)
+                    }
                     launch(Dispatchers.Main) {
                         refreshLayout.isRefreshing = false
-                    }
-
-                    if (answer.body() == null) {
-                        //todo: internet error
-                    } else if (answer.body()!!.drinks.isNotEmpty()) {
-                        startActivity<CocktailActivity> {
-                            putExtra("drink", Gson().toJson(answer.body()!!.drinks.first()))
-                        }
                     }
                 }
             }
@@ -90,6 +83,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
 
             filter.onRightDrawableClicked { it.text.clear() }
+        }
+    }
+
+    private fun onDrinksLoaded(drinks: List<Drink>?) {
+        GlobalScope.launch(Dispatchers.Main) {
+            if (drinks == null)
+                toast(R.string.internet_error)
+            else if (drinks.isNotEmpty()) {
+                startActivity<CocktailActivity> {
+                    putExtra("drink", Gson().toJson(drinks.first()))
+                }
+            } else
+                toast(R.string.empty_list)
         }
     }
 

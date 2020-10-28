@@ -5,11 +5,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.adapters.DrinksAdapter
 import app.nocamelstyle.cocktailguide.databinding.ActivityCategoryBinding
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.services.ApiService
+import app.nocamelstyle.cocktailguide.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,9 +62,8 @@ class CategoryActivity :
                     }
                 }
 
-            } else {
-                //todo: internet error
-            }
+            } else
+                toast(R.string.internet_error)
         }
     }
 

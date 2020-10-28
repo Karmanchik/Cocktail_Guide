@@ -13,6 +13,7 @@ import app.nocamelstyle.cocktailguide.adapters.CategoriesAdapter
 import app.nocamelstyle.cocktailguide.databinding.FragmentCategoriesBinding
 import app.nocamelstyle.cocktailguide.models.AnswerCategories
 import app.nocamelstyle.cocktailguide.services.ApiService
+import app.nocamelstyle.cocktailguide.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,14 +42,20 @@ class CategoriesFragment :
     override fun onRefresh() {
         binding?.refreshLayout?.isRefreshing = true
         GlobalScope.launch(Dispatchers.IO) {
-            onCategoriesLoaded(ApiService.loadCategories())
+            try {
+                onCategoriesLoaded(ApiService.loadCategories())
+            } catch (e: Exception) {
+                onCategoriesLoaded(null)
+            }
         }
     }
 
-    private fun onCategoriesLoaded(answer: Response<AnswerCategories>) {
+    private fun onCategoriesLoaded(answer: Response<AnswerCategories>?) {
         binding?.refreshLayout?.isRefreshing = false
         GlobalScope.launch(Dispatchers.Main) {
-            if (answer.body() != null) {
+            if (answer == null)
+                toast(R.string.internet_error)
+            else if (answer.body() != null) {
                 if (categoriesAdapter == null) {
                     binding?.categoriesList?.apply {
                         layoutManager = LinearLayoutManager(requireContext())
@@ -62,9 +69,8 @@ class CategoriesFragment :
                     //todo diff utils
                 }
 
-            } else {
-                //todo show error
-            }
+            } else
+                toast(R.string.internet_error)
         }
     }
 
