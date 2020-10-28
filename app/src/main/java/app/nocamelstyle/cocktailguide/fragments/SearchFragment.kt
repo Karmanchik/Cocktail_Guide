@@ -69,14 +69,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onResume()
 
         GlobalScope.launch(Dispatchers.Main) {
-            val drinks =
-                    Realm.getDefaultInstance().where<DrinkRealm>().findAll().map { it.toBasicVersion() }
+            val drinks = Realm.getDefaultInstance()
+                    .where<DrinkRealm>()
+                    .findAll()
+                    .map { it.toBasicVersion() }
+                    .filter { it.idDrink != null }
+                    .reversed()
+
             binding?.historyList?.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = HistoryVisitAdapter(
-                        requireContext(),
-                        drinks.filter { it.idDrink != null }.reversed()
-                )
+                adapter = HistoryVisitAdapter(requireContext(), drinks)
             }
         }
     }

@@ -1,7 +1,9 @@
 package app.nocamelstyle.cocktailguide.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import app.nocamelstyle.cocktailguide.R
 import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import app.nocamelstyle.cocktailguide.models.Drink
@@ -34,16 +36,40 @@ class CocktailActivity : AppCompatActivity() {
 
         binding.apply {
             setSupportActionBar(toolbar)
-            toolbarLayout.title = drink.strDrink
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+
+            toolbarLayout.title = "${drink.strDrink} (#${drink.idDrink})"
+
+            container.apply {
+                val emptyStub = getString(R.string.param_empty)
+                drinkType.text = getString(
+                        R.string.param_drink_type,
+                        drink.strCategory ?: emptyStub
+                )
+                description.text = getString(
+                        R.string.param_drink_description,
+                        drink.strDescription ?: emptyStub
+                )
+                glassType.text = getString(
+                        R.string.param_drink_glass,
+                        drink.strGlass ?: emptyStub
+                )
+
+                if (drink.strCategory == null)
+                    drinkType.visibility = View.GONE
+                if (drink.strGlass == null)
+                    glassType.visibility = View.GONE
+            }
+
             fab.setOnClickListener {
                 fab.setImageResource(
-                    if (!isSelected) R.drawable.ic_baseline_star_rate_24
-                    else R.drawable.ic_baseline_star_outline_24
+                        if (!isSelected) R.drawable.ic_baseline_star_rate_24
+                        else R.drawable.ic_baseline_star_outline_24
                 )
                 isSelected = !isSelected
             }
         }
-        //todo: save drink to realm
     }
 
     private fun saveToDb() {
@@ -58,6 +84,12 @@ class CocktailActivity : AppCompatActivity() {
             if (oldDrink == null)
                 it.copyToRealm(drink.toRealVersion())
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home)
+            finish()
+        return super.onOptionsItemSelected(item)
     }
 
 }
