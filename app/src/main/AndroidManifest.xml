@@ -20,6 +20,7 @@
             android:theme="@style/Theme.CocktailGuide.NoActionBar" />
         <activity
             android:theme="@style/Theme.Home"
+            android:windowSoftInputMode="adjustPan"
             android:name=".activities.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
