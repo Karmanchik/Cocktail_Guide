@@ -12,17 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CocktailGuide">
-        <activity android:name=".activities.CategoryActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.OnBoardingActivity"></activity>
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CocktailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.CocktailGuide.NoActionBar" />
         <activity
-            android:theme="@style/Theme.Home"
-            android:windowSoftInputMode="adjustPan"
             android:name=".activities.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Home"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait">
