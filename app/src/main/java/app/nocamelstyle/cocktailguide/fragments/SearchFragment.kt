@@ -2,8 +2,12 @@ package app.nocamelstyle.cocktailguide.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.nocamelstyle.cocktailguide.R
@@ -13,6 +17,7 @@ import app.nocamelstyle.cocktailguide.databinding.FragmentSearchBinding
 import app.nocamelstyle.cocktailguide.models.AnswerDrinks
 import app.nocamelstyle.cocktailguide.models.DrinkRealm
 import app.nocamelstyle.cocktailguide.services.ApiService
+import app.nocamelstyle.cocktailguide.utils.onRightDrawableClicked
 import app.nocamelstyle.cocktailguide.utils.startActivity
 import com.google.gson.Gson
 import io.realm.Realm
@@ -62,6 +67,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         }
                     }
             }
+
+            filter.doOnTextChanged { _, _, _, count ->
+                if (count != 0) {
+                    val cancel = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_close_24)
+                    cancel?.setBounds(0,0, cancel.intrinsicWidth, cancel.intrinsicHeight)
+                    filter.setCompoundDrawables(null, null, cancel, null)
+                } else {
+                    filter.setCompoundDrawables(null, null, null, null)
+                }
+            }
+
+            filter.onRightDrawableClicked { it.text.clear() }
         }
     }
 
