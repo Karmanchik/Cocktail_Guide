@@ -44,6 +44,27 @@
             android:layout_marginBottom="8dp"
             android:text="@string/large_text" />
 
+        <TextView
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:id="@+id/ingredientsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/ingredientsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

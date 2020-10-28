@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.nocamelstyle.cocktailguide.R
+import app.nocamelstyle.cocktailguide.adapters.InredientsAdapter
 import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import app.nocamelstyle.cocktailguide.models.Drink
 import app.nocamelstyle.cocktailguide.models.DrinkRealm
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.content_scrolling.*
 
 class CocktailActivity : AppCompatActivity() {
 
@@ -63,6 +67,20 @@ class CocktailActivity : AppCompatActivity() {
                         else R.drawable.ic_baseline_star_outline_24
                 )
                 isSelected = !isSelected
+            }
+
+            val ingredients = Gson().fromJson(intent.getStringExtra("drink"), JsonObject::class.java)
+                .entrySet()
+                .filter { it.key.startsWith("strIngredient") }
+                .filter { it.value != null }
+                .map { it.value.toString() }
+
+            //todo: show/hide ingredients title
+            ingredientsTitle.visibility = if (ingredients.isEmpty()) View.GONE else View.VISIBLE
+
+            ingredientsList.apply {
+                layoutManager = LinearLayoutManager(this@CocktailActivity)
+                adapter = InredientsAdapter(ingredients)
             }
         }
     }

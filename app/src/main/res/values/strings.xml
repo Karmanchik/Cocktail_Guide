@@ -18,4 +18,5 @@
     <string name="param_drink_glass">Glass: %1$s</string>
     <string name="param_empty">Empty</string>
     <string name="empty_list">List is empty!</string>
+    <string name="ingredients">Ingredients:</string>
 </resources>
