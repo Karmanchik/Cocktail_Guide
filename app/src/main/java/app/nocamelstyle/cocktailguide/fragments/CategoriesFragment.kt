@@ -66,7 +66,6 @@ class CategoriesFragment :
                 } else {
                     categoriesAdapter?.categories = answer.body()!!.drinks
                     categoriesAdapter?.notifyDataSetChanged()
-                    //todo diff utils
                 }
 
             } else

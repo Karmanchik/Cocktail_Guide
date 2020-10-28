@@ -15,11 +15,9 @@ import app.nocamelstyle.cocktailguide.services.ApiService
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.content_scrolling.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -52,6 +50,7 @@ class CocktailActivity : AppCompatActivity() {
             toolbarLayout.title = "${drink.strDrink} (#${drink.idDrink})"
 
             container.apply {
+
                 val emptyStub = getString(R.string.param_empty)
                 drinkType.text = getString(
                         R.string.param_drink_type,
@@ -80,7 +79,7 @@ class CocktailActivity : AppCompatActivity() {
     }
 
     private fun loadIngredients() {
-        //todo: animation
+        binding.loadView.visibility = View.VISIBLE
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 onIngredientsLoaded(
@@ -99,16 +98,20 @@ class CocktailActivity : AppCompatActivity() {
     }
 
     private fun onIngredientsLoaded(ingredients: List<Ingredient>?) {
+        GlobalScope.launch(Dispatchers.Main) {
 
-        ingredientsTitle.visibility =
-            if (ingredients?.isNotEmpty() == true) View.VISIBLE else View.GONE
-        //todo: animation stop
-        if (ingredients == null) return
+            binding.container.apply {
+                ingredientsTitle.visibility =
+                    if (ingredients?.isNotEmpty() == true) View.VISIBLE else View.GONE
+                binding.loadView.visibility = View.GONE
+                if (ingredients != null) {
 
-
-        ingredientsList.apply {
-            layoutManager = LinearLayoutManager(this@CocktailActivity)
-            adapter = InredientsAdapter(ingredients)
+                    ingredientsList.apply {
+                        layoutManager = LinearLayoutManager(this@CocktailActivity)
+                        adapter = InredientsAdapter(ingredients)
+                    }
+                }
+            }
         }
     }
 
