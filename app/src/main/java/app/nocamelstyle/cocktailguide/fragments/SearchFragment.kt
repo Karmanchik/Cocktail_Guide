@@ -43,7 +43,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             randomButton.setOnClickListener {
                 refreshLayout.isRefreshing = true
                 GlobalScope.launch(Dispatchers.IO) {
-                    //todo: load animation
                     val answer = ApiService.loadRandomDrink()
                     launch(Dispatchers.Main) {
                         refreshLayout.isRefreshing = false
