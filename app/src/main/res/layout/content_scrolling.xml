@@ -6,7 +6,7 @@
     android:background="@color/background"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.CocktailActivity"
+    tools:context=".UI.activities.CocktailActivity"
     tools:showIn="@layout/activity_cocktail">
 
     <LinearLayout

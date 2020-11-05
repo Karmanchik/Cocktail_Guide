@@ -1,7 +1,7 @@
 package app.nocamelstyle.cocktailguide
 
 import android.app.Application
-import app.nocamelstyle.cocktailguide.utils.Setting
+import app.nocamelstyle.cocktailguide.Repository.Setting
 import io.realm.Realm
 
 class App : Application() {

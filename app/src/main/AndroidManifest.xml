@@ -12,21 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CocktailGuide">
-        <activity android:name=".activities.OnBoardingActivity"></activity>
+        <activity android:name="app.nocamelstyle.cocktailguide.UI.activities.OnBoardingActivity"></activity>
         <activity
-            android:name=".activities.CategoryActivity"
+            android:name="app.nocamelstyle.cocktailguide.UI.activities.CategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.CocktailActivity"
+            android:name="app.nocamelstyle.cocktailguide.UI.activities.CocktailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.CocktailGuide.NoActionBar" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="app.nocamelstyle.cocktailguide.UI.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Home"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="app.nocamelstyle.cocktailguide.UI.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
