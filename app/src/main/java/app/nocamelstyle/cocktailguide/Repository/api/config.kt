@@ -1,19 +1,15 @@
 package app.nocamelstyle.cocktailguide.Repository.api
 
 import app.nocamelstyle.cocktailguide.BuildConfig
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 private const val API_BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
 
 val retrofit by lazy {
-    val gson = GsonBuilder()
-        .setLenient()
-        .create()
 
     val interceptor = HttpLoggingInterceptor()
     interceptor.level =
@@ -28,7 +24,7 @@ val retrofit by lazy {
 
     Retrofit.Builder()
         .baseUrl(API_BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(MoshiConverterFactory.create())
         .client(client)
         .build()
 }

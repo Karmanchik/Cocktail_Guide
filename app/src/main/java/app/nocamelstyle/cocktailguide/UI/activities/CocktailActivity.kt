@@ -6,15 +6,15 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.nocamelstyle.cocktailguide.R
-import app.nocamelstyle.cocktailguide.UI.adapters.InredientsAdapter
-import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import app.nocamelstyle.cocktailguide.Repository.models.Drink
 import app.nocamelstyle.cocktailguide.Repository.models.DrinkRealm
 import app.nocamelstyle.cocktailguide.Repository.models.Ingredient
 import app.nocamelstyle.cocktailguide.Repository.services.ApiService
+import app.nocamelstyle.cocktailguide.UI.adapters.InredientsAdapter
+import app.nocamelstyle.cocktailguide.databinding.ActivityCocktailBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -34,7 +34,7 @@ class CocktailActivity : AppCompatActivity() {
         binding = ActivityCocktailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        drink = Gson().fromJson(intent.getStringExtra("drink"), Drink::class.java)
+        drink = Moshi.Builder().build().adapter(Drink::class.java).fromJson(intent.getStringExtra("drink")!!)!!
         saveToDb()
 
         Glide.with(this)

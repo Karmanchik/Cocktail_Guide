@@ -18,7 +18,7 @@ import app.nocamelstyle.cocktailguide.Repository.models.Drink
 import app.nocamelstyle.cocktailguide.onRightDrawableClicked
 import app.nocamelstyle.cocktailguide.startActivity
 import app.nocamelstyle.cocktailguide.toast
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -87,7 +87,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchContract.View {
                 toast(R.string.internet_error)
             else {
                 startActivity<CocktailActivity> {
-                    putExtra("drink", Gson().toJson(drink))
+                    putExtra("drink", Moshi.Builder().build().adapter(Drink::class.java).toJson(drink))
                 }
             }
         }

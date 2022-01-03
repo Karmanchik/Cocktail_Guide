@@ -10,7 +10,7 @@ import app.nocamelstyle.cocktailguide.databinding.ItemCocktailBinding
 import app.nocamelstyle.cocktailguide.Repository.models.Drink
 import app.nocamelstyle.cocktailguide.startActivity
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 
 class HistoryVisitAdapter(
     val ctx: Context,
@@ -45,7 +45,7 @@ class HistoryVisitAdapter(
 
                 view.root.setOnClickListener {
                     ctx.startActivity<CocktailActivity> {
-                        putExtra("drink", Gson().toJson(this@apply))
+                        putExtra("drink", Moshi.Builder().build().adapter(Drink::class.java).toJson(this@apply))
                     }
                 }
             }

@@ -13,7 +13,7 @@ import app.nocamelstyle.cocktailguide.databinding.ItemCocktailBinding
 import app.nocamelstyle.cocktailguide.databinding.ItemSkeletonBinding
 import app.nocamelstyle.cocktailguide.Repository.models.Drink
 import app.nocamelstyle.cocktailguide.startActivity
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -115,7 +115,7 @@ class DrinksAdapter(
 
                     container.setOnClickListener {  _ ->
                         ctx.startActivity<CocktailActivity> {
-                            putExtra("drink", Gson().toJson(it))
+                            putExtra("drink", Moshi.Builder().build().adapter(Drink::class.java).toJson(it))
                         }
                     }
                 }
